@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartStock Vision · LIAA · Judith Andrade</title>
+<meta name="description" content="SmartStock Vision: reconhecimento por visão computacional dos produtos retirados da prateleira, para apoiar o controle de estoque de pequenos estabelecimentos. Projeto de Laboratório de Inteligência Artificial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#14202a; --tinta2:#1e2f3b; --papel:#f4f1ea; --cartao:#fbfaf6; --linha:#e3ddd0;
+  --texto:#1d2730; --suave:#5d6873; --laranja:#e8832a; --laranja2:#c96a17; --azul:#2f5d8c;
+  --verde:#2e8b57; --vermelho:#c0392b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--papel);color:var(--texto);font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:var(--azul)}
+code,.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:.88em}
+.cx{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* menu */
+nav{position:sticky;top:0;z-index:20;background:rgba(20,32,42,.94);backdrop-filter:blur(8px)}
+nav .cx{display:flex;align-items:center;gap:22px;height:58px;overflow-x:auto;white-space:nowrap}
+nav .marca{color:#fff;font-weight:800;text-decoration:none;margin-right:auto}
+nav .marca span{color:var(--laranja)}
+nav a.l{color:#c9d3db;text-decoration:none;font-size:.9rem;font-weight:500}
+nav a.l:hover{color:#fff}
+
+/* capa */
+.capa{background:var(--tinta);color:#f6f2ea;position:relative;overflow:hidden}
+.capa .cx{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-top:70px;padding-bottom:70px}
+.rotulo{font-family:"JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;font-size:.78rem;color:var(--laranja);font-weight:600}
+.capa h1{font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.05;margin:14px 0 18px;letter-spacing:-.02em}
+.capa p.lead{font-size:1.2rem;color:#c9d3db;margin:0 0 26px;max-width:34ch}
+.capa .meta{font-size:.92rem;color:#9fb0bd;line-height:1.7}
+.capa .meta b{color:#fff}
+.capa img{border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.botoes{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.bt{display:inline-block;padding:11px 20px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.95rem}
+.bt.p{background:var(--laranja);color:#14202a}
+.bt.s{border:1px solid #4a5d6c;color:#e6edf2}
+
+/* números da capa */
+.numeros{background:var(--tinta2);color:#fff}
+.numeros .cx{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.numeros div.n{padding:26px 18px;border-right:1px solid #2f4352}
+.numeros div.n:last-child{border-right:0}
+.numeros b{display:block;font-size:2.1rem;line-height:1.1;color:var(--laranja);font-weight:800}
+.numeros span{color:#b8c6d1;font-size:.9rem}
+
+/* seções */
+section{padding:84px 0}
+section.escura{background:var(--tinta);color:#eef2f5}
+section.escura .sub{color:#b8c6d1}
+h2{font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.15;margin:10px 0 14px;letter-spacing:-.015em}
+.sub{color:var(--suave);font-size:1.1rem;max-width:62ch;margin:0 0 34px}
+.grade{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.cartao{background:var(--cartao);border:1px solid var(--linha);border-radius:14px;padding:24px}
+.cartao h3{margin:6px 0 8px;font-size:1.18rem}
+.cartao p{margin:0;color:var(--suave)}
+.cartao .tag{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--azul)}
+.cartao.esc{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.cartao.esc p{color:#c9d3db}
+.cartao.esc .tag{color:var(--laranja)}
+.icone{font-size:1.8rem}
+
+/* fluxo */
+.fluxo{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;counter-reset:passo}
+.passo{background:var(--cartao);border:1px solid var(--linha);border-radius:14px;padding:18px 14px;text-align:center;position:relative}
+.passo .num{color:var(--laranja);font-weight:800;font-size:1.25rem}
+.passo code{display:inline-block;background:var(--tinta);color:#fff;border-radius:6px;padding:2px 8px;margin:6px 0;font-size:.78rem}
+.passo p{margin:4px 0 6px;color:var(--suave);font-size:.9rem;line-height:1.35}
+.passo b{font-size:1.6rem;color:var(--azul)}
+
+/* linha do tempo */
+.tempo{position:relative;margin-left:12px;border-left:3px solid #33495a;padding-left:30px}
+.marco{position:relative;margin-bottom:34px}
+.marco:before{content:"";position:absolute;left:-41px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--laranja);border:3px solid var(--tinta)}
+.marco.pivo:before{background:#fff}
+.marco .quando{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--laranja);letter-spacing:.06em}
+.marco h3{margin:4px 0 6px;font-size:1.2rem;color:#fff}
+.marco p{margin:0;color:#b8c6d1;max-width:75ch}
+.marco .pv{display:inline-block;margin-left:8px;font-size:.72rem;background:#fff;color:var(--tinta);padding:1px 8px;border-radius:999px;font-weight:700;vertical-align:middle}
+
+/* tabelas */
+table{width:100%;border-collapse:collapse;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;overflow:hidden}
+th{background:var(--tinta);color:#fff;text-align:left;padding:12px 14px;font-size:.92rem}
+td{padding:11px 14px;border-top:1px solid var(--linha);font-size:.95rem;vertical-align:top}
+td b{color:var(--tinta)}
+
+/* métricas */
+.metrica{background:var(--cartao);border:1px solid var(--linha);border-radius:14px;padding:22px;text-align:center}
+.metrica b{display:block;font-size:2.4rem;color:var(--azul);font-weight:800;line-height:1.1}
+.metrica span{color:var(--suave);font-size:.92rem}
+.aviso{background:#fff3e4;border-left:5px solid var(--laranja);border-radius:10px;padding:16px 20px;margin:22px 0;color:#5b3a12}
+.aviso.verde{background:#eaf5ee;border-color:var(--verde);color:#1d4a30}
+
+/* barras */
+.barra{display:grid;grid-template-columns:110px 1fr 70px;gap:12px;align-items:center;margin:10px 0}
+.barra .t{height:22px;background:#e6e1d6;border-radius:6px;overflow:hidden}
+.barra .t i{display:block;height:100%;background:var(--azul);border-radius:6px}
+.barra .t i.ruim{background:var(--laranja)}
+.barra .v{font-weight:700;text-align:right}
+
+/* fotos */
+.fotos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+figure{margin:0;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;overflow:hidden}
+figure img{width:100%;height:260px;object-fit:cover}
+figure.inteira img{height:auto}
+figcaption{padding:10px 14px;font-size:.88rem;color:var(--suave)}
+figcaption b.ok{color:var(--verde)} figcaption b.no{color:var(--vermelho)}
+
+/* próximos passos */
+.lista{counter-reset:item;list-style:none;padding:0;margin:0}
+.lista li{counter-increment:item;padding:14px 0 14px 54px;border-bottom:1px solid #33495a;position:relative}
+.lista li:before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:12px;color:var(--laranja);font-family:"JetBrains Mono",monospace;font-weight:600;font-size:1.1rem}
+.lista li b{color:#fff}
+
+footer{background:#0e171e;color:#8fa1af;padding:34px 0;font-size:.88rem}
+footer a{color:#c9d3db}
+
+@media (max-width:900px){
+  .capa .cx,.g2,.g3{grid-template-columns:1fr}
+  .g4,.fotos{grid-template-columns:repeat(2,1fr)}
+  .fluxo{grid-template-columns:repeat(2,1fr)}
+  .numeros .cx{grid-template-columns:repeat(2,1fr)}
+  .numeros div.n{border-bottom:1px solid #2f4352}
+  section{padding:60px 0}
+}
+@media (max-width:520px){
+  .g4,.fotos{grid-template-columns:1fr}
+  figure img{height:320px}
+  .barra{grid-template-columns:80px 1fr 56px}
+}
+@media print{nav{display:none} section{padding:30px 0;break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<nav><div class="cx">
+  <a class="marca" href="#topo">SmartStock<span>Vision</span></a>
+  <a class="l" href="#contexto">Contexto</a>
+  <a class="l" href="#problema">Problema</a>
+  <a class="l" href="#solucao">Solução</a>
+  <a class="l" href="#evolucao">Evolução</a>
+  <a class="l" href="#dados">Dados</a>
+  <a class="l" href="#resultados">Resultados</a>
+  <a class="l" href="#proximos">Próximos passos</a>
+</div></nav>
+
+<!-- CAPA -->
+<header class="capa" id="topo"><div class="cx">
+  <div>
+    <div class="rotulo">Laboratório de Inteligência Artificial · 2026/2</div>
+    <h1>SmartStock Vision</h1>
+    <p class="lead">Visão computacional que reconhece o produto retirado da prateleira, para apoiar o controle de estoque de pequenos estabelecimentos.</p>
+    <div class="botoes">
+      <a class="bt p" href="#resultados">Ver os resultados</a>
+      <a class="bt s" href="#evolucao">Como o projeto evoluiu</a>
+    </div>
+    <div class="meta">
+      <b>Judith Otávia Margarido de Andrade</b><br>
+      Prof. Diego Luis Kreutz · UNIPAMPA<br>
+      Mestrado · Engenharia de Software
+    </div>
+  </div>
+  <img src="img/cenas-sinteticas.jpg" alt="Cenas sintéticas geradas pelo projeto: produtos (Coca-Cola, água, Oreo e amendoim) em fundos variados, com as caixas de detecção desenhadas.">
+</div></header>
+
+<div class="numeros"><div class="cx">
+  <div class="n"><b>4</b><span>produtos reconhecidos hoje</span></div>
+  <div class="n"><b>4.200</b><span>cenas geradas com caixas YOLO</span></div>
+  <div class="n"><b>53 de 59</b><span>fotos reais da loja identificadas (90%)</span></div>
+  <div class="n"><b>36 min</b><span>de treino do YOLOv8 na GPU T4</span></div>
+</div></div>
+
+<!-- CONTEXTO -->
+<section id="contexto"><div class="cx">
+  <div class="rotulo">01 · Contexto</div>
+  <h2>Uma loja sem funcionários, vigiada por câmeras</h2>
+  <p class="sub">O projeto nasceu de um caso real: uma loja de conveniência autônoma, sem atendentes, monitorada por câmeras. O cliente pega o produto, paga sozinho e vai embora.</p>
+  <div class="grade g3">
+    <div class="cartao"><div class="icone">🏪</div><h3>Pequeno varejo</h3><p>Lojas de conveniência, mercados de bairro e balcões ainda conferem o estoque à mão, contando produto por produto.</p></div>
+    <div class="cartao"><div class="icone">📉</div><h3>Perdas que crescem</h3><p>As perdas no varejo (<i>shrink</i>) foram estimadas em US$ 132 bilhões no mundo em 2024, contra US$ 112 bilhões em 2022 (BizTech Magazine, 2025).</p></div>
+    <div class="cartao"><div class="icone">📷</div><h3>A câmera já está lá</h3><p>A loja já tem câmeras. A pergunta do projeto é se dá para usar essas imagens para saber <b>qual produto</b> saiu da prateleira.</p></div>
+  </div>
+</div></section>
+
+<!-- PROBLEMA -->
+<section id="problema" class="escura"><div class="cx">
+  <div class="rotulo">02 · Problema</div>
+  <h2>Um produto sai da prateleira. O sistema não sabe.</h2>
+  <p class="sub">Às vezes o cliente retira mais produtos do que paga. A diferença só aparece dias depois, na conferência do estoque, e aí já não dá para saber quando nem o quê.</p>
+  <div class="grade g3">
+    <div class="cartao esc"><span class="tag">o que acontece</span><h3>Retirada sem registro</h3><p>Retiradas e reposições não são registradas no momento em que ocorrem.</p></div>
+    <div class="cartao esc"><span class="tag">a consequência</span><h3>Estoque que não bate</h3><p>O estoque físico e o do sistema divergem, e a conferência manual é demorada.</p></div>
+    <div class="cartao esc"><span class="tag">por que IA</span><h3>Comparar imagens não basta</h3><p>A simples diferença entre quadros confunde o produto com a mão, a sombra ou a mudança de luz. É preciso <b>reconhecer o produto</b>.</p></div>
+  </div>
+  <p class="sub" style="margin-top:34px">As tecnologias tradicionais resolvem só uma parte do problema:</p>
+  <table>
+    <tr><th>Tecnologia</th><th>O que detecta</th><th>Limitação</th></tr>
+    <tr><td><b>Peso (balança)</b></td><td>Que o peso mudou</td><td>Não diz <i>qual</i> produto; produtos de peso parecido se confundem</td></tr>
+    <tr><td><b>RFID</b></td><td>A etiqueta do produto</td><td>Exige etiquetar cada unidade e instalar antenas</td></tr>
+    <tr><td><b>Óptico / infravermelho</b></td><td>Interrupção de um feixe</td><td>Funciona bem só em um ponto (ex.: máquina de venda)</td></tr>
+    <tr><td><b>Visão computacional</b></td><td>Qual produto e onde ele está</td><td>Precisa de um bom conjunto de imagens — <b>é o foco deste projeto</b></td></tr>
+  </table>
+</div></section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao"><div class="cx">
+  <div class="rotulo">03 · Proposta de solução</div>
+  <h2>Ensinar um detector YOLO a reconhecer os produtos da loja</h2>
+  <p class="sub">Seguindo a orientação do professor, o escopo foi fechado no que é, de fato, um problema de IA: <b>reconhecer o produto na imagem</b>. Uma câmera fixa, comportamento padrão do cliente, retirada de um item por vez.</p>
+  <div class="grade g4">
+    <div class="cartao"><span class="tag">entrada</span><h3>Imagem da prateleira</h3><p>Foto ou quadro de vídeo da câmera fixa.</p></div>
+    <div class="cartao"><span class="tag">modelo</span><h3>YOLOv8</h3><p>Detector pré-treinado, ajustado (<i>fine-tuning</i>) com imagens dos produtos da loja.</p></div>
+    <div class="cartao"><span class="tag">saída</span><h3>Produto + caixa</h3><p>Qual produto, onde está e com qual confiança.</p></div>
+    <div class="cartao esc"><span class="tag">meta do plano</span><h3>F1 ≥ 0,40</h3><p>Referência: Shoman et al. (2022), F1 = 0,44 em problema parecido.</p></div>
+  </div>
+  <div class="aviso"><b>Fora do escopo, de propósito:</b> reconhecimento facial e identificação de pessoas (decisão de projeto, por privacidade e LGPD), pagamento real, várias câmeras e catálogo grande.</div>
+  <p class="sub" style="margin-top:30px">Produtos do catálogo piloto:</p>
+  <div class="grade g4">
+    <div class="cartao"><h3>🥤 Coca-Cola lata</h3><p><code>coca_cola_lata</code></p></div>
+    <div class="cartao"><h3>💧 Água mineral 500 ml</h3><p><code>agua_mineral_500ml</code></p></div>
+    <div class="cartao"><h3>🍪 Biscoito Oreo</h3><p><code>biscoito_oreo</code></p></div>
+    <div class="cartao"><h3>🥜 Amendoim japonês</h3><p><code>amendoim_japones</code></p></div>
+  </div>
+</div></section>
+
+<!-- EVOLUÇÃO -->
+<section id="evolucao" class="escura"><div class="cx">
+  <div class="rotulo">04 · Evolução no semestre</div>
+  <h2>Da ideia descartada ao modelo treinado</h2>
+  <p class="sub">O projeto mudou de rumo três vezes. Cada mudança veio de um problema real ou de uma orientação em aula.</p>
+  <div class="tempo">
+    <div class="marco pivo"><div class="quando">ATIVIDADE 1</div><h3>Previsão de demanda <span class="pv">DESCARTADA</span></h3><p>A primeira proposta usava IA para prever a demanda e gerar alertas de reposição. Foi trocada por um problema mais concreto: saber o que sai da prateleira.</p></div>
+    <div class="marco pivo"><div class="quando">ATIVIDADES 2 A 4 · 08/09</div><h3>Pivô para visão computacional (em dupla com a Jamilli) <span class="pv">PIVÔ</span></h3><p>Proposta de estoque inteligente com sensores de peso e câmeras. Já havia um protótipo web com cesta virtual, estoque e reconhecimento simulado. <b>Feedback do professor:</b> escopo complexo demais; focar só no que é IA, porque sensor de peso não é IA.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 5 · 21/09</div><h3>Marco 1 e especificação técnica</h3><p>Arquitetura com três fontes de detecção intercambiáveis (simulado, sensor de peso e câmera real), banco de dados e plano de 10 semanas. Ponto fraco declarado: menos de 10 fotos, ainda sem dataset.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 6 · 28/09</div><h3>Coleta automática de imagens da internet</h3><p>Script de raspagem (<code>icrawler</code>), limpeza de repetidas por <i>hash</i> perceptual, divisão antes do aumento de dados. <b>Feedback em 29/09:</b> fotos comerciais da internet não representam a loja real; 90% do tempo de um projeto de IA vai para os dados.</p></div>
+    <div class="marco"><div class="quando">OUTUBRO · ENTREGA DO DATASET</div><h3>1.033 imagens revisadas à mão</h3><p>De 2.188 imagens encontradas, só 634 novas foram aprovadas na revisão foto a foto (69% rejeitadas). Licença e autor de cada imagem registrados em planilha.</p></div>
+    <div class="marco pivo"><div class="quando">ATIVIDADE 9 · 20/10</div><h3>Mudança de rota: dataset sintético com fotos próprias <span class="pv">PIVÔ</span></h3><p>Sai a internet, entram fotos dos produtos reais. O fundo é removido e os recortes são montados em cenas variadas, com as caixas de detecção geradas automaticamente. A tarefa passa de classificação para <b>detecção</b>.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 11 · 03/11</div><h3>YOLOv8 treinado e testado em fotos reais da loja</h3><p>162 fotos da loja → 11 recortes aprovados → 4.200 cenas → 50 épocas na GPU. No teste com 59 fotos reais, o modelo identificou o produto em 53 (90%).</p></div>
+  </div>
+</div></section>
+
+<!-- DADOS -->
+<section id="dados"><div class="cx">
+  <div class="rotulo">05 · Como os dados são feitos</div>
+  <h2>Seis passos, quase tudo roda sozinho</h2>
+  <p class="sub">Em vez de desenhar caixas à mão em milhares de imagens, o projeto fotografa cada produto, recorta e monta cenas. Como o programa sabe onde colou cada produto, a caixa sai certa automaticamente.</p>
+  <div class="fluxo">
+    <div class="passo"><div class="num">1</div><code>fotos</code><p>fotos da loja pelo celular</p><b>162</b></div>
+    <div class="passo"><div class="num">2</div><code>rembg</code><p>a IA tira o fundo da foto</p><b>IA</b></div>
+    <div class="passo"><div class="num">3</div><code>recortar.py</code><p>recortes revisados e aprovados</p><b>11</b></div>
+    <div class="passo"><div class="num">4</div><code>gerar_cenas.py</code><p>cenas com caixas prontas</p><b>4.200</b></div>
+    <div class="passo"><div class="num">5</div><code>Colab T4</code><p>épocas de treino do YOLOv8</p><b>50</b></div>
+    <div class="passo"><div class="num">6</div><code>best.pt</code><p>modelo treinado (6,5 MB)</p><b>✓</b></div>
+  </div>
+
+  <div class="grade g2" style="margin-top:34px">
+    <figure class="inteira"><img src="img/rembg-coca.jpg" alt="Foto da Coca-Cola na loja e o mesmo produto com o fundo removido"><figcaption><b>Passo 2:</b> a foto da loja vira só o produto (Coca-Cola).</figcaption></figure>
+    <figure class="inteira"><img src="img/rembg-agua.jpg" alt="Foto da água mineral na loja e o recorte sem fundo"><figcaption><b>Passo 2:</b> o mesmo com a água mineral. Dos 20 recortes, 9 foram descartados por defeito.</figcaption></figure>
+  </div>
+
+  <div class="grade g2" style="margin-top:20px;align-items:start">
+    <figure class="inteira"><img src="img/recortes.jpg" alt="Os 11 recortes aprovados: águas, amendoim, Oreo e Coca-Cola"><figcaption><b>Passo 3:</b> os 11 recortes aprovados.</figcaption></figure>
+    <div class="cartao">
+      <span class="tag">passo 4 · gerar_cenas.py</span>
+      <h3>O que cada cena tem</h3>
+      <p>Prateleira, balcão ou cesta; de 1 a 8 produtos; objetos que não são produto (distratores); produtos encobertos uns pelos outros; e "defeitos de câmera": luz, sombra, desfoque, tremido, ruído e compressão JPEG. A semente é fixa, então o dataset pode ser gerado de novo igualzinho.</p>
+      <table style="margin-top:16px">
+        <tr><th>Divisão</th><th>Cenas</th></tr>
+        <tr><td>Treino</td><td><b>3.000</b></td></tr>
+        <tr><td>Validação</td><td><b>600</b></td></tr>
+        <tr><td>Teste</td><td><b>600</b> + fotos reais</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="aviso verde"><b>Uma nota que não engana:</b> a divisão é feita <b>por foto de origem</b>. A mesma foto nunca aparece no treino e no teste ao mesmo tempo, para o resultado não ficar inflado. E a nota que vale é a das <b>fotos reais</b>, que o modelo nunca viu.</div>
+</div></section>
+
+<!-- RESULTADOS -->
+<section id="resultados" class="escura"><div class="cx">
+  <div class="rotulo">06 · Resultados</div>
+  <h2>O que o modelo já consegue fazer</h2>
+  <p class="sub">YOLOv8 treinado por 50 épocas em 36 minutos na GPU T4 do Google Colab. O erro de classe (<code>cls_loss</code>) caiu de 1,15 na primeira época para 0,17 na última.</p>
+  <div class="grade g4">
+    <div class="metrica"><b>0,970</b><span>precisão</span></div>
+    <div class="metrica"><b>0,979</b><span>recall</span></div>
+    <div class="metrica"><b>0,975</b><span>F1 · meta ≥ 0,40</span></div>
+    <div class="metrica"><b>0,993</b><span>mAP@50 · mAP@50-95 = 0,938</span></div>
+  </div>
+  <div class="aviso"><b>Leitura honesta:</b> essas notas são das 600 cenas <b>sintéticas</b> de validação, e a validação só tem água e Coca-Cola (o Oreo e o amendoim tinham 1 e 2 recortes e ficaram só no treino). Cenas montadas são fáceis. A nota que vale vem das fotos reais, abaixo.</div>
+
+  <h3 style="color:#fff;margin-top:44px;font-size:1.4rem">Teste rápido em fotos reais da loja</h3>
+  <p class="sub">59 fotos de verdade, fora do treino. Acerto = o produto com maior confiança é o da foto.</p>
+  <div class="grade g2" style="align-items:center">
+    <div class="cartao">
+      <div class="barra"><span>Água</span><div class="t"><i style="width:100%"></i></div><span class="v">13/13</span></div>
+      <div class="barra"><span>Amendoim</span><div class="t"><i style="width:100%"></i></div><span class="v">12/12</span></div>
+      <div class="barra"><span>Coca-Cola</span><div class="t"><i style="width:100%"></i></div><span class="v">18/18</span></div>
+      <div class="barra"><span>Oreo</span><div class="t"><i class="ruim" style="width:62.5%"></i></div><span class="v">10/16</span></div>
+      <p style="margin-top:16px"><b style="color:var(--tinta)">Total: 53 de 59 fotos (90%).</b> O Oreo foi o ponto fraco: tinha só 2 recortes no treino.</p>
+    </div>
+    <div class="fotos" style="grid-template-columns:repeat(2,1fr)">
+      <figure><img src="img/real-amendoim.jpg" alt="Amendoim japonês detectado com confiança de 0,96"><figcaption><b class="ok">✓</b> amendoim · 0,96</figcaption></figure>
+      <figure><img src="img/real-coca.jpg" alt="Latas de Coca-Cola detectadas na prateleira"><figcaption><b class="ok">✓</b> Coca-Cola · até 0,96</figcaption></figure>
+      <figure><img src="img/real-oreo.jpg" alt="Dois pacotes de Oreo detectados com confiança de 0,96 e 0,92"><figcaption><b class="ok">✓</b> Oreo · 0,96</figcaption></figure>
+      <figure><img src="img/real-oreo-erro.jpg" alt="Pacotes de Oreo com caixas de baixa confiança e uma confusão com Coca-Cola"><figcaption><b class="no">✗</b> Oreo: errou, com baixa confiança</figcaption></figure>
+    </div>
+  </div>
+  <div class="aviso"><b>Limitações assumidas:</b> (1) as 59 fotos ainda não têm rótulos de caixa, então este é um teste rápido e não a nota oficial com mAP; (2) cenas montadas não reproduzem 100% os reflexos e oclusões reais; (3) ainda não há fotos de <b>pessoas retirando</b> os produtos, que é o cenário real da loja.</div>
+</div></section>
+
+<!-- PRÓXIMOS PASSOS -->
+<section id="proximos" class="escura" style="background:var(--tinta2)"><div class="cx">
+  <div class="rotulo">07 · Próximos passos</div>
+  <h2>O que falta para fechar o ciclo</h2>
+  <p class="sub">Seguindo o guia do professor: o modelo serve de instrumento para achar os defeitos do próprio dataset, e cada volta gera uma nova versão.</p>
+  <div class="grade g2">
+    <ol class="lista">
+      <li><b>Rotular as 59 fotos reais</b> e medir F1 e mAP oficiais nelas.</li>
+      <li><b>Corrigir o Oreo:</b> mais fotos e recortes.</li>
+      <li><b>Comparar com o YOLO sem treino</b> (só COCO), como linha de base.</li>
+      <li><b>Teste de domínio:</b> treinar só com fotos comerciais e medir a queda nas fotos da loja.</li>
+    </ol>
+    <ol class="lista" start="5" style="counter-reset:item 4">
+      <li><b>Gravar retiradas reais:</b> vídeos curtos de pessoas pegando os produtos, extraindo de 2 a 5 quadros por retirada.</li>
+      <li><b>Anotar com pré-anotação</b> do próprio modelo e revisão manual.</li>
+      <li><b>Congelar um teste real</b> (50 a 100 imagens por produto) e versionar o dataset (v1, v2…).</li>
+      <li><b>Privacidade:</b> autorização do dono da loja e de quem aparecer, com rostos borrados (LGPD).</li>
+    </ol>
+  </div>
+</div></section>
+
+<!-- TECNOLOGIAS E USO DE IA -->
+<section><div class="cx">
+  <div class="rotulo">08 · Ferramentas</div>
+  <h2>Tecnologias usadas</h2>
+  <div class="grade g3">
+    <div class="cartao"><span class="tag">modelo</span><h3>Ultralytics YOLOv8</h3><p>Detecção de objetos com <i>fine-tuning</i> a partir de pesos pré-treinados.</p></div>
+    <div class="cartao"><span class="tag">dados</span><h3>Python · rembg · Pillow</h3><p>Remoção de fundo, recorte e geração das cenas sintéticas com caixas no formato YOLO.</p></div>
+    <div class="cartao"><span class="tag">treino</span><h3>Google Colab · GPU T4</h3><p>Treino e avaliação no navegador, sem instalar nada no computador.</p></div>
+  </div>
+  <div class="cartao" style="margin-top:20px">
+    <span class="tag">transparência</span>
+    <h3>Uso de IA no projeto</h3>
+    <p>Assistentes de IA (Claude) foram usados para explorar ideias, revisar o escopo, apoiar a escrita de scripts e organizar os documentos e este site. As decisões, a coleta das fotos, a revisão das imagens, o treino e a conferência dos números são da autora.</p>
+  </div>
+</div></section>
+
+<footer><div class="cx">
+  <b style="color:#fff">SmartStock Vision</b> · Judith Otávia Margarido de Andrade · Laboratório de Inteligência Artificial (prof. Diego Luis Kreutz) · UNIPAMPA · 2026/2<br>
+  Fotos dos produtos tiradas pela autora. Marcas citadas pertencem aos seus donos e aparecem só para fins acadêmicos.
+</div></footer>
+
+</body>
+</html>
