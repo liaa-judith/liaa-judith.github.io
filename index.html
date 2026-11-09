@@ -123,11 +123,6 @@ figcaption b.ok{color:var(--verde)} figcaption b.no{color:var(--vermelho)}
 .lista li:before{content:counter(item,decimal-leading-zero);position:absolute;left:0;top:12px;color:var(--laranja);font-family:"JetBrains Mono",monospace;font-weight:600;font-size:1.1rem}
 .lista li b{color:#fff}
 
-.doc{display:inline-block;margin-top:10px;margin-right:8px;padding:5px 12px;border-radius:999px;border:1px solid var(--laranja);color:var(--laranja);text-decoration:none;font-size:.85rem;font-weight:600}
-.doc:hover{background:var(--laranja);color:var(--tinta)}
-.docs a.cartao{text-decoration:none;color:inherit;display:block;transition:transform .15s,border-color .15s}
-.docs a.cartao:hover{transform:translateY(-3px);border-color:var(--laranja)}
-.docs .abrir{display:inline-block;margin-top:12px;color:var(--laranja2);font-weight:700;font-size:.9rem}
 footer{background:#0e171e;color:#8fa1af;padding:34px 0;font-size:.88rem}
 footer a{color:#c9d3db}
 
@@ -158,7 +153,6 @@ footer a{color:#c9d3db}
   <a class="l" href="#dados">Dados</a>
   <a class="l" href="#resultados">Resultados</a>
   <a class="l" href="#proximos">Próximos passos</a>
-  <a class="l" href="#entregas">Entregas (PDF)</a>
 </div></nav>
 
 <!-- CAPA -->
@@ -246,13 +240,13 @@ footer a{color:#c9d3db}
   <h2>Da ideia descartada ao modelo treinado</h2>
   <p class="sub">O projeto mudou de rumo três vezes. Cada mudança veio de um problema real ou de uma orientação em aula.</p>
   <div class="tempo">
-    <div class="marco pivo"><div class="quando">ATIVIDADE 1</div><h3>Previsão de demanda <span class="pv">DESCARTADA</span></h3><p>A primeira proposta usava IA para prever a demanda e gerar alertas de reposição. Foi trocada por um problema mais concreto: saber o que sai da prateleira.</p><a class="doc" href="entregas/01-proposta-previsao-de-demanda.pdf" target="_blank" rel="noopener">📄 Abrir PDF</a></div>
-    <div class="marco pivo"><div class="quando">ATIVIDADES 2 A 4 · 08/09</div><h3>Pivô para visão computacional (em dupla com a Jamilli) <span class="pv">PIVÔ</span></h3><p>Proposta de estoque inteligente com sensores de peso e câmeras. Já havia um protótipo web com cesta virtual, estoque e reconhecimento simulado. <b>Feedback do professor:</b> escopo complexo demais; focar só no que é IA, porque sensor de peso não é IA.</p><a class="doc" href="entregas/02-estoque-inteligente-visao-computacional.pdf" target="_blank" rel="noopener">📄 Proposta (Ativ. 2)</a><a class="doc" href="entregas/03-especificacao-tecnica.pdf" target="_blank" rel="noopener">📄 Especificação (Ativ. 3)</a><a class="doc" href="entregas/04-apresentacao-atividades-1-a-3.pdf" target="_blank" rel="noopener">📄 Apresentação (Ativ. 4)</a></div>
-    <div class="marco"><div class="quando">ATIVIDADE 5 · 21/09</div><h3>Marco 1 e especificação técnica</h3><p>Arquitetura com três fontes de detecção intercambiáveis (simulado, sensor de peso e câmera real), banco de dados e plano de 10 semanas. Ponto fraco declarado: menos de 10 fotos, ainda sem dataset.</p><a class="doc" href="entregas/05-marco-1-ideacao.pdf" target="_blank" rel="noopener">📄 Abrir PDF</a></div>
-    <div class="marco"><div class="quando">ATIVIDADE 6 · 28/09</div><h3>Coleta automática de imagens da internet</h3><p>Script de raspagem (<code>icrawler</code>), limpeza de repetidas por <i>hash</i> perceptual, divisão antes do aumento de dados. <b>Feedback em 29/09:</b> fotos comerciais da internet não representam a loja real; 90% do tempo de um projeto de IA vai para os dados.</p><a class="doc" href="entregas/06-segunda-entrega-documento.pdf" target="_blank" rel="noopener">📄 Documento</a><a class="doc" href="entregas/06-segunda-entrega-slides.pdf" target="_blank" rel="noopener">📄 Slides</a></div>
-    <div class="marco"><div class="quando">OUTUBRO · ENTREGA DO DATASET</div><h3>1.033 imagens revisadas à mão</h3><p>De 2.188 imagens encontradas, só 634 novas foram aprovadas na revisão foto a foto (69% rejeitadas). Licença e autor de cada imagem registrados em planilha.</p><a class="doc" href="entregas/08-dataset-1033-imagens.pdf" target="_blank" rel="noopener">📄 Abrir PDF</a></div>
-    <div class="marco pivo"><div class="quando">ATIVIDADE 9 · 20/10</div><h3>Mudança de rota: dataset sintético com fotos próprias <span class="pv">PIVÔ</span></h3><p>Sai a internet, entram fotos dos produtos reais. O fundo é removido e os recortes são montados em cenas variadas, com as caixas de detecção geradas automaticamente. A tarefa passa de classificação para <b>detecção</b>.</p><a class="doc" href="entregas/09-dataset-sintetico.pdf" target="_blank" rel="noopener">📄 Abrir PDF</a></div>
-    <div class="marco"><div class="quando">ATIVIDADE 11 · 03/11</div><h3>YOLOv8 treinado e testado em fotos reais da loja</h3><p>162 fotos da loja → 11 recortes aprovados → 4.200 cenas → 50 épocas na GPU. No teste com 59 fotos reais, o modelo identificou o produto em 53 (90%).</p><a class="doc" href="entregas/11-yolo-treinado.pdf" target="_blank" rel="noopener">📄 Abrir PDF</a></div>
+    <div class="marco pivo"><div class="quando">ATIVIDADE 1</div><h3>Previsão de demanda <span class="pv">DESCARTADA</span></h3><p>A primeira proposta usava IA para prever a demanda e gerar alertas de reposição. Foi trocada por um problema mais concreto: saber o que sai da prateleira.</p></div>
+    <div class="marco pivo"><div class="quando">ATIVIDADES 2 A 4 · 08/09</div><h3>Pivô para visão computacional (em dupla com a Jamilli) <span class="pv">PIVÔ</span></h3><p>Proposta de estoque inteligente com sensores de peso e câmeras. Já havia um protótipo web com cesta virtual, estoque e reconhecimento simulado. <b>Feedback do professor:</b> escopo complexo demais; focar só no que é IA, porque sensor de peso não é IA.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 5 · 21/09</div><h3>Marco 1 e especificação técnica</h3><p>Arquitetura com três fontes de detecção intercambiáveis (simulado, sensor de peso e câmera real), banco de dados e plano de 10 semanas. Ponto fraco declarado: menos de 10 fotos, ainda sem dataset.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 6 · 28/09</div><h3>Coleta automática de imagens da internet</h3><p>Script de raspagem (<code>icrawler</code>), limpeza de repetidas por <i>hash</i> perceptual, divisão antes do aumento de dados. <b>Feedback em 29/09:</b> fotos comerciais da internet não representam a loja real; 90% do tempo de um projeto de IA vai para os dados.</p></div>
+    <div class="marco"><div class="quando">OUTUBRO · ENTREGA DO DATASET</div><h3>1.033 imagens revisadas à mão</h3><p>De 2.188 imagens encontradas, só 634 novas foram aprovadas na revisão foto a foto (69% rejeitadas). Licença e autor de cada imagem registrados em planilha.</p></div>
+    <div class="marco pivo"><div class="quando">ATIVIDADE 9 · 20/10</div><h3>Mudança de rota: dataset sintético com fotos próprias <span class="pv">PIVÔ</span></h3><p>Sai a internet, entram fotos dos produtos reais. O fundo é removido e os recortes são montados em cenas variadas, com as caixas de detecção geradas automaticamente. A tarefa passa de classificação para <b>detecção</b>.</p></div>
+    <div class="marco"><div class="quando">ATIVIDADE 11 · 03/11</div><h3>YOLOv8 treinado e testado em fotos reais da loja</h3><p>162 fotos da loja → 11 recortes aprovados → 4.200 cenas → 50 épocas na GPU. No teste com 59 fotos reais, o modelo identificou o produto em 53 (90%).</p></div>
   </div>
 </div></section>
 
@@ -345,14 +339,6 @@ footer a{color:#c9d3db}
       <li><b>Privacidade:</b> autorização do dono da loja e de quem aparecer, com rostos borrados (LGPD).</li>
     </ol>
   </div>
-</div></section>
-
-<!-- ENTREGAS -->
-<section id="entregas"><div class="cx">
-  <div class="rotulo">Documentos</div>
-  <h2>Todas as entregas do semestre</h2>
-  <p class="sub">Clique para abrir cada entrega em PDF, na ordem em que foi apresentada.</p>
-  <div class="grade g3 docs"><a class="cartao" href="entregas/01-proposta-previsao-de-demanda.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 1</span><h3>Proposta: previsão de demanda</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/02-estoque-inteligente-visao-computacional.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 2</span><h3>Estoque inteligente com visão computacional</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/03-especificacao-tecnica.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 3</span><h3>Especificação técnica</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/04-apresentacao-atividades-1-a-3.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 4</span><h3>Apresentação: da ideia ao plano técnico</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/05-marco-1-ideacao.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 5 · 21/09</span><h3>Marco 1: ideação e protótipo inicial</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/06-segunda-entrega-documento.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 6 · 28/09</span><h3>Segunda entrega: documento</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/06-segunda-entrega-slides.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 6 · 28/09</span><h3>Segunda entrega: slides</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/08-dataset-1033-imagens.pdf" target="_blank" rel="noopener"><span class="tag">Outubro</span><h3>Dataset com 1.033 imagens revisadas</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/09-dataset-sintetico.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 9 · 20/10</span><h3>Mudança de rota: dataset sintético</h3><span class="abrir">📄 Abrir PDF →</span></a><a class="cartao" href="entregas/11-yolo-treinado.pdf" target="_blank" rel="noopener"><span class="tag">Atividade 11 · 03/11</span><h3>YOLOv8 treinado e testado em fotos reais</h3><span class="abrir">📄 Abrir PDF →</span></a></div>
 </div></section>
 
 <!-- TECNOLOGIAS E USO DE IA -->
